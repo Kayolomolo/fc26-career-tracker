@@ -139,6 +139,7 @@ textarea { width: 100%; min-height: 60px; resize: vertical; }
     <img src="Logo.jpeg" alt="Logo" style="width:64px;height:64px;border-radius:50%;margin-bottom:8px;object-fit:cover">
     <h1>EA FC 26 Career Tracker</h1>
     <p>Houd al je career modes bij</p>
+    <button class="btn btn-outline btn-sm" style="margin-top:10px" onclick="exportData()"><i class="fa-solid fa-download"></i> Data exporteren (voor 2.0)</button>
   </header>
 
   <div class="career-bar" id="career-bar"></div>
@@ -1315,6 +1316,18 @@ if (data.activeCareerId) career=data.careers.find(c=>c.id===data.activeCareerId)
 renderCareerBar();
 refreshAll();
 renderTeams();
+
+function exportData(){
+  const json = localStorage.getItem('fc26data2');
+  if(!json) return alert('Geen data gevonden');
+  const blob = new Blob([json], {type:'application/json'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'fc26-career-data.json';
+  a.click();
+  URL.revokeObjectURL(url);
+}
 </script>
 </body>
 </html>
